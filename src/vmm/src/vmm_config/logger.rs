@@ -3,7 +3,7 @@
 
 //! Auxiliary module for configuring the logger.
 
-use libc::O_NONBLOCK;
+use libc::{O_CREAT, O_NONBLOCK};
 use std::fmt::{Display, Formatter};
 use std::fs::{File, OpenOptions};
 use std::io::{LineWriter, Write};
@@ -27,7 +27,7 @@ impl LoggerWriter {
     pub fn new(fifo_path: &str) -> Result<LoggerWriter> {
         let fifo = PathBuf::from(fifo_path);
         OpenOptions::new()
-            .custom_flags(O_NONBLOCK)
+            .custom_flags(O_CREAT)
             .read(true)
             .write(true)
             .open(&fifo)
